@@ -10,24 +10,24 @@ import Foundation
 
 @MainActor
 @Observable
-final class ChatViewModel {
+final class PlantDashboardViewModel {
     // UI state
-    var messages: [Message] = []
-    var inputText: String = ""
+    var plants: [Plant] = []
+    var selectedPlantID: String?
     var isLoading: Bool = false
-    var isModelPickerPresented: Bool = false
-    var isSettingsPresented: Bool = false
+    var isAddSheetPresented: Bool = false
+    var isDetailSheetPresented: Bool = false
 
     // Persistence
     var modelContainer: ModelContainer?
     var context: ModelContext?
 
-    // Runtime / network
-    var selectedModelID: String?
-    var streamingTask: Task<Void, Never>?
+    // Network / runtime
+    var moistureTimer: Timer?
+    var lastSensorReading: Double?
 
     // Widget sync
-    func syncWidgetThreads() {
+    func syncWidgetPlants() {
         // Widget update logic here
     }
 
@@ -36,19 +36,14 @@ final class ChatViewModel {
         // UINotificationFeedbackGenerator logic here
     }
 
-    func sendMessage() {
-        let text = inputText
-        messages.append(Message(role: .user, text: text))
-        inputText = ""
-        isLoading = true
+    func addPlant(name: String) {
+        let plant = Plant(name: name)
+        plants.append(plant)
 
-        streamingTask = Task {
-            // Simulated network + streaming + persistence + haptics
-            try? await Task.sleep(for: .seconds(1))
-            messages.append(Message(role: .assistant, text: "Reply"))
-            isLoading = false
-            hapticSuccess()
-            syncWidgetThreads()
+        moistureTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+            self.lastSensorReading = Double.random(in: 0...1)
+            self.hapticSuccess()
+            self.syncWidgetPlants()
 
             if let context {
                 try? context.save()
@@ -56,23 +51,17 @@ final class ChatViewModel {
         }
     }
 
-    func loadThreads() {
+    func loadPlants() {
         guard let context else { return }
         // SwiftData fetch
     }
 
-    func deleteThread(_ message: Message) {
+    func deletePlant(_ plant: Plant) {
         // SwiftData delete
     }
 }
 
-struct Message: Identifiable {
+struct Plant: Identifiable {
     let id = UUID()
-    let role: Role
-    var text: String
-
-    enum Role {
-        case user
-        case assistant
-    }
+    var name: String
 }

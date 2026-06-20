@@ -1,23 +1,24 @@
 import SwiftUI
-import SwiftData
 
 // MARK: - Good: thin coordinator + actor service + AsyncStream
 
-enum GenerationEvent: Sendable {
-    case partial(String)
-    case done
+// Example: a plant-watering tracker that fetches moisture readings.
+
+enum MoistureEvent: Sendable {
+    case reading(Double)
+    case stable
     case error(String)
 }
 
-actor RuntimeService {
-    func generate(prompt: String) -> AsyncStream<GenerationEvent> {
+actor MoistureService {
+    func monitor(sensorID: String) -> AsyncStream<MoistureEvent> {
         AsyncStream { continuation in
             let task = Task {
-                for word in ["Hello", "world", "."] {
-                    try? await Task.sleep(for: .milliseconds(50))
-                    continuation.yield(.partial(word + " "))
+                for value in [0.2, 0.4, 0.6, 0.65] {
+                    try? await Task.sleep(for: .milliseconds(100))
+                    continuation.yield(.reading(value))
                 }
-                continuation.yield(.done)
+                continuation.yield(.stable)
                 continuation.finish()
             }
 
@@ -30,55 +31,35 @@ actor RuntimeService {
 
 @MainActor
 @Observable
-final class ChatCoordinator {
-    private let service: RuntimeService
-    var messages: [Message] = []
-    var inputText: String = ""
-    var isRunning: Bool = false
+final class PlantCoordinator {
+    private let service: MoistureService
+    var currentMoisture: Double?
+    var status: String = "Waiting..."
+    var isMonitoring: Bool = false
 
-    init(service: RuntimeService) {
+    init(service: MoistureService) {
         self.service = service
     }
 
-    func send() {
-        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return }
-        inputText = ""
-
-        messages.append(Message(role: .user, text: text))
-        let assistantMessage = Message(role: .assistant, text: "")
-        messages.append(assistantMessage)
-        isRunning = true
+    func startMonitoring(sensorID: String) {
+        guard !isMonitoring else { return }
+        isMonitoring = true
 
         Task {
-            let stream = await service.generate(prompt: text)
+            let stream = await service.monitor(sensorID: sensorID)
             for await event in stream {
                 switch event {
-                case .partial(let token):
-                    assistantMessage.text += token
-                case .done:
-                    isRunning = false
+                case .reading(let value):
+                    currentMoisture = value
+                    status = "Moisture: \(Int(value * 100))%"
+                case .stable:
+                    status = "Stable"
+                    isMonitoring = false
                 case .error(let message):
-                    assistantMessage.text = "Error: \(message)"
-                    isRunning = false
+                    status = "Error: \(message)"
+                    isMonitoring = false
                 }
             }
         }
-    }
-}
-
-final class Message: Identifiable {
-    let id = UUID()
-    let role: Message.Role
-    var text: String
-
-    init(role: Message.Role, text: String) {
-        self.role = role
-        self.text = text
-    }
-
-    enum Role {
-        case user
-        case assistant
     }
 }

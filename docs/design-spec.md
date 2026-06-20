@@ -163,8 +163,8 @@ One-sentence principle:
 ### 5.11 Examples
 Each example is a short, complete Swift snippet.
 
-- **Good composer:** small view, `TextField(axis: .vertical)`, actions delegate to view-model, native send button.
-- **Good message list:** enum routes, stable `ForEach` identities, `.task(id:)` for streaming.
+- **Good input bar:** small view, `TextField(axis: .vertical)`, actions delegate to view-model, native submit button.
+- **Good plant monitor:** enum routes, stable `ForEach` identities, `.task(id:)` for streaming.
 - **Good runtime boundary:** actor runtime supervisor, `AsyncStream<GenerationEvent>`, views observe via `@Observable` coordinator.
 - **Bad god view-model:** a coordinator anti-pattern mixing persistence, runtime, haptics, widget sync, and UI state.
 - **Bad duplicate buttons:** two "Download more models" entries.
@@ -201,6 +201,8 @@ Dispatch the same prompt with `better-ios` loaded. The agent should:
 
 ### 6.3 Refactor loop
 If the agent finds new rationalizations (e.g. "this view-model is a coordinator exception"), add explicit counters and re-test.
+
+**Loophole closed during green test:** the green agent attempted to satisfy the visual-proof rule by describing the UI composition instead of capturing a screenshot. The skill now explicitly states that a description is not proof and adds a red flag for "describing UI instead of capturing a screenshot or semantic snapshot."
 
 ---
 

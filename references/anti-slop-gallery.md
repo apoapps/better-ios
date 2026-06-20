@@ -3,7 +3,7 @@
 ## 1. Duplicate controls
 
 ### Bad
-A "Download more models" button in the header model selector AND another one in the composer footer.
+A "New item" button in the toolbar and another "Create" button in the floating action area.
 
 ### Why
 Users discover one path, then later find another. Maintenance drift makes them behave differently.
@@ -20,7 +20,7 @@ Every screen wraps content in a custom `GlassSurface` with a configurable corner
 It makes every screen look like a dashboard and fights accessibility/Dynamic Type.
 
 ### Good
-Use `List`, `Form`, `ContentUnavailableView`, or plain `VStack`/`HStack` with semantic backgrounds. Reserve glass/material for floating chrome (toolbars, composers, nav bars).
+Use `List`, `Form`, `ContentUnavailableView`, or plain `VStack`/`HStack` with semantic backgrounds. Reserve glass/material for floating chrome (toolbars, nav bars, input bars).
 
 ## 3. Hardcoded colors
 
@@ -55,7 +55,7 @@ Use the design system radius scale. Keep primary surfaces mostly flat or with sm
 ## 5. Fake feature rows
 
 ### Bad
-A composer menu with rows for "Camera", "Voice", "Deep Research", "Web Search" that are not wired.
+A settings menu with rows for "Cloud backup", "Siri shortcuts", "Watch app" that are not wired.
 
 ### Why
 Disabled/fake controls erode trust and clutter the UI.
@@ -68,8 +68,8 @@ Only show actions the app actually performs. Delete the rest.
 ### Bad
 ```swift
 @State private var isSettingsPresented = false
-@State private var isModelPickerPresented = false
-@State private var isDownloadsPresented = false
+@State private var isPickerPresented = false
+@State private var isEditorPresented = false
 ```
 
 ### Why
@@ -79,8 +79,8 @@ Boolean flags cannot carry data, encourage duplicate state, and make sheet stack
 ```swift
 enum Sheet: Identifiable {
     case settings
-    case modelPicker
-    case downloads
+    case picker
+    case editor(itemID: String)
 }
 @State private var presentedSheet: Sheet?
 ```
@@ -88,14 +88,14 @@ enum Sheet: Identifiable {
 ## 7. God view-model
 
 ### Bad
-A single coordinator that imports SwiftData, Network, and SwiftUI, and handles persistence, runtime streaming, widget sync, haptics, and UI state.
+A single coordinator that imports SwiftData, Network, and SwiftUI, and handles persistence, sensor polling, widget sync, haptics, and UI state.
 
 ### Why
 Impossible to test, reason about, or refactor.
 
 ### Good
 Split into:
-- `ChatCoordinator` — stream consumption + UI state
-- `ChatService` / actor — persistence + runtime calls
+- `PlantCoordinator` — UI state + stream consumption
+- `PlantService` / actor — sensor/network calls
 - `WidgetSync` — widget updates
 - `Haptics` — small feedback helper

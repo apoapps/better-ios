@@ -35,7 +35,7 @@ better-ios/
     testing-matrix.md
     anti-slop-gallery.md
   examples/
-    GoodComposer.swift
+    GoodInputBar.swift
     GoodRuntimeCoordinator.swift
     BadGodViewModel.swift
     BadBooleanSheets.swift

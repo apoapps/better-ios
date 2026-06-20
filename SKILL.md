@@ -80,7 +80,7 @@ Before declaring a screen done, verify:
 3. **No oversized radii on content** — primary surfaces should not look like dashboards. Radii > 22 pt are a warning.
 4. **No hardcoded colors** — use Asset Catalog / semantic tokens.
 5. **No fake feature rows** — delete disabled rows for mic, camera, web search, deep research, etc. unless wired.
-6. **No frosted custom composer** — prefer `TextField(axis: .vertical)` + standard toolbar.
+6. **No frosted custom input bar** — prefer `TextField(axis: .vertical)` + standard toolbar.
 7. **No < 44 pt touch targets** — increase targets and keep Dynamic Type intact.
 
 ## Testing Requirements
@@ -117,6 +117,7 @@ For the exact MCP commands, see `build-ios-apps`. This skill tells you to captur
 | "It's just a small UI tweak, no test needed." | Small UI tweaks are where regressions hide. Add a screenshot test. |
 | "Two buttons for the same action is fine." | Duplicate controls confuse users and create maintenance drift. |
 | "I'll use a boolean flag for now and refactor later." | Boolean sheet flags multiply and create duplicate state. Use an enum now. |
+| "I can describe the UI instead of capturing it." | A description is not proof. Capture a screenshot or semantic snapshot. |
 
 ## Red Flags — STOP and Restart
 
@@ -126,12 +127,13 @@ For the exact MCP commands, see `build-ios-apps`. This skill tells you to captur
 - Claiming runtime proof from a simulator build.
 - Skipping a test because "it's obvious."
 - Adding a `.sheet(isPresented:)` when a `.sheet(item:)` enum already exists.
+- Describing UI instead of capturing a screenshot or semantic snapshot.
 
 ## Examples
 
 See the `examples/` directory:
 
-- `GoodComposer.swift` — small view, native text field, delegated actions.
+- `GoodInputBar.swift` — small view, native text field, delegated actions.
 - `GoodRuntimeCoordinator.swift` — thin coordinator + actor service + `AsyncStream`.
 - `BadGodViewModel.swift` — what a 1000+ line coordinator anti-pattern looks like.
 - `BadBooleanSheets.swift` — why boolean flags for sheets fail.
