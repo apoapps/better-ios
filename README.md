@@ -2,6 +2,14 @@
 
 A quality-first skill for building Swift/SwiftUI iOS and macOS apps without the usual AI-generated slop.
 
+Created by [Alejandro Apodaca Cordova](https://apoapps.com) to fill the gap left by tooling-focused skills: deciding what is worth building, what to delete, and how to prove it.
+
+## Why it exists
+
+The [OpenAI `build-ios-apps`](https://github.com/openai/plugins/tree/main/plugins/build-ios-apps) plugin is excellent for deep tooling recipes — XcodeBuildMCP, ETTrace, memgraph, App Intents, Liquid Glass. But it does not stop an agent from generating the same mistakes across real apps: duplicate controls, god view-models, custom glass cards everywhere, missing tests, and false "simulator build = runtime proof" claims.
+
+This skill was built by shipping many iOS apps and watching what broke. It has been tested against real agent sessions on OpenAI Codex and Kimi Code.
+
 ## What it is
 
 `better-ios` is the first skill you load when thinking about what to build. It covers:
@@ -13,9 +21,9 @@ A quality-first skill for building Swift/SwiftUI iOS and macOS apps without the 
 
 ## What it is not
 
-This skill does **not** replace `build-ios-apps`. Use `build-ios-apps` for the deep tooling recipes:
+This skill does **not** replace `build-ios-apps`. Use it for the deep tooling recipes:
 
-- XcodeBuildMCP workflows
+- [XcodeBuildMCP workflows](https://github.com/openai/plugins/tree/main/plugins/build-ios-apps)
 - ETTrace profiling
 - memgraph leak analysis
 - App Intents
