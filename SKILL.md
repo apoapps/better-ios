@@ -9,7 +9,9 @@ description: Use when building or refactoring Swift/SwiftUI iOS or macOS apps an
 
 Build native-first, small, tested, decoupled views — and prove them with real evidence, not compiler output.
 
-This skill is the **quality foundation** for SwiftUI work. It tells you what is worth building, what to delete, and how to verify it. For the deep tooling recipes — XcodeBuildMCP, ETTrace, memgraph analysis, App Intents, Liquid Glass API details, macOS packaging — load `build-ios-apps` or `build-macos-apps` **after** this one. This skill sets the bar those tools help you reach.
+This skill is the **quality foundation** for SwiftUI work. It tells you what is worth building, what to delete, and how to verify it. For the deep tooling recipes — XcodeBuildMCP, ETTrace, memgraph analysis, App Intents, Liquid Glass API details, macOS packaging — load [`build-ios-apps`](https://github.com/openai/plugins/tree/main/plugins/build-ios-apps) or [`build-macos-apps`](https://github.com/openai/plugins/tree/main/plugins/build-macos-apps) **after** this one. This skill sets the bar those tools help you reach.
+
+Created by [Alejandro Apodaca Cordova](https://apoapps.com) after shipping many iOS apps and watching the same AI-generated mistakes break them. Tested on OpenAI Codex and Kimi Code.
 
 ## When to Use
 
@@ -145,9 +147,9 @@ See the `examples/` directory:
 
 ### Where to find them
 
-- OpenAI Codex plugins repo: `https://github.com/openai/plugins`
-  - iOS: `plugins/build-ios-apps/`
-  - macOS: `plugins/build-macos-apps/`
+- OpenAI Codex plugins repo: https://github.com/openai/plugins
+  - iOS: [`plugins/build-ios-apps/`](https://github.com/openai/plugins/tree/main/plugins/build-ios-apps)
+  - macOS: [`plugins/build-macos-apps/`](https://github.com/openai/plugins/tree/main/plugins/build-macos-apps)
 - Each plugin is a directory containing `SKILL.md` files under `skills/`, plus `references/` and `scripts/`.
 
 ### How to install for any agent
@@ -171,6 +173,6 @@ If you cannot fetch the plugin, still follow the verification workflow in this s
 
 ## Cross-References
 
-- `build-ios-apps` — XcodeBuildMCP, Liquid Glass details, App Intents, ETTrace, memgraph.
-- `build-macos-apps` — macOS packaging, notarization, shell-first scripts.
+- [`build-ios-apps`](https://github.com/openai/plugins/tree/main/plugins/build-ios-apps) — XcodeBuildMCP, Liquid Glass details, App Intents, ETTrace, memgraph.
+- [`build-macos-apps`](https://github.com/openai/plugins/tree/main/plugins/build-macos-apps) — macOS packaging, notarization, shell-first scripts.
 - `superpowers:test-driven-development` — TDD discipline.
